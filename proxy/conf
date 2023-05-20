@@ -1,6 +1,6 @@
 server {
     listen       80;
-    server_name  localhost;
+    server_name  weblinnkapi;
     location / {
         proxy_pass   http://34.226.122.88:8080;
     }
