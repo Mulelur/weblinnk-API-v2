@@ -6,7 +6,7 @@ const sequelize = new Sequelize('weblinnkdb', 'rOUrDHAm', 'w&1E7ZER0gZ0lSJ^on%WI
 })
 
 ;(async () => {
-  await sequelize.sync({ force: true })
+  await sequelize.sync({ force: false })
   // Code here
   try {
     await sequelize.authenticate()
