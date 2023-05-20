@@ -2,7 +2,7 @@ server {
     listen       80;
     server_name  localhost;
     location / {
-        proxy_pass   http://localhost:8080;
+        proxy_pass   http://34.226.122.88:8080;
     }
 
 }
