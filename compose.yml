@@ -23,7 +23,7 @@ services:
     build: proxy
     restart: always
     ports:
-      - 5001:5001
+      - 80:80
     depends_on:
       - dev-app
     networks:
