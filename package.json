@@ -17,13 +17,15 @@
     "format": "prettier \"./**\" --write --ignore-unknown",
     "format:check": "prettier \"./**\" --ignore-unknown --check"
   },
-  "dependencies": { 
+  "dependencies": {
     "@alpacahq/alpaca-trade-api": "^2.16.1",
     "@types/compression": "^1.7.2",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.12",
+    "@types/nodemailer": "^6.4.8",
     "@types/uuid": "^9.0.0",
     "@types/ws": "^8.5.3",
+    "aws-sdk": "^2.1381.0",
     "axios": "^1.2.1",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.6",
@@ -33,6 +35,7 @@
     "helmet": "^6.0.1",
     "io": "^1.0.5",
     "jsonwebtoken": "^9.0.0",
+    "nodemailer": "^6.9.2",
     "sequelize": "^6.28.0",
     "socket.io": "^4.5.4",
     "tslib": "^2.3.1",

@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize'
 
-const sequelize = new Sequelize('weblinnkdb', 'rOUrDHAm', 'w&1E7ZER0gZ0lSJ^on%WIHrh', {
+const sequelize = new Sequelize('weblinnkdb2', 'rOUrDHAm', 'w&1E7ZER0gZ0lSJ^on%WIHrh', {
   host: 'weblinnkdb.ceuqepbib5y4.eu-north-1.rds.amazonaws.com',
   dialect: 'mysql',
 })

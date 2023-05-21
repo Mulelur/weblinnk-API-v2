@@ -3,19 +3,28 @@ import compression from 'compression' // compresses requests
 import cors from 'cors'
 import helmet from 'helmet'
 import cookieParser from 'cookie-parser'
-// import path from 'path'
-// import * as dotenv from 'dotenv'
+import path from 'path'
 
-// dotenv.config({ path: `${path.join(__dirname, '..')}/.env` })
+import { config as dotenvConfig } from 'dotenv'
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 
 // eslint-disable-next-line import/extensions
 import routes from './routes/routes'
+// eslint-disable-next-line import/extensions
+// import sendEmailToUser from './helpers/emails'
 
 const app = express()
 
+dotenvConfig({ path: path.join(__dirname, '.env') })
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
+
+// sendEmailToUser('rotondwamulelu@gmail.com', 'new Account', 'hello this is test')
 
 const shouldCompress = (req: Request, res: Response) => {
   if (req.headers['x-no-compression']) {

@@ -33,11 +33,7 @@ User.init(
       primaryKey: true,
       allowNull: false,
     },
-    uid: DataTypes.TEXT,
-    token: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
+    uid: { type: DataTypes.TEXT, unique: true, allowNull: false },
     verified: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,

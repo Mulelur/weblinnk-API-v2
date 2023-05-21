@@ -1,29 +1,52 @@
 import { Request, Response } from 'express'
 // eslint-disable-next-line import/extensions
-// import sequelize from '../../config/sequelize'
 // eslint-disable-next-line import/extensions
 import User from '../../models/user'
 import jwt from 'jsonwebtoken'
+import { Op } from 'sequelize'
+// eslint-disable-next-line import/extensions
+import sendEmailToUser from '../../helpers/emails'
 
 const createUser = async (req: Request, res: Response) => {
   //   const transact = await sequelize.transaction()
   try {
-    const { uid, verified, email, deleted, token } = req.body
+    const { uid, verified, email, deleted } = req.body
 
-    const p = await User.create({
+    if (!uid && !email) {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing fields',
+      })
+    }
+
+    // Check if user with the same uid or email already exists
+    const existingUser = await User.findOne({
+      where: {
+        [Op.or]: [{ uid }, { email }],
+      },
+    })
+
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        error: 'User already exists',
+      })
+    }
+
+    const user = await User.create({
       uid,
       verified,
       email,
       deleted,
-      token,
     })
 
-    // transact.commit()
+    // Send email to the user
+    await sendEmailToUser(email, 'Welcome to our platform', 'Thank you for signing up.')
 
-    return res.status(200).json({
-      success: 'true',
+    return res.status(201).json({
+      success: true,
       message: 'User created',
-      data: p,
+      data: user,
     })
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -31,9 +54,9 @@ const createUser = async (req: Request, res: Response) => {
 
     // transact.rollback()
 
-    return res.status(200).json({
-      success: 'true',
-      message: 'error',
+    return res.status(500).json({
+      success: false,
+      error: 'Something went wrong.',
     })
   }
 }
@@ -49,7 +72,7 @@ const verifyToken = async (req: Request, res: Response) => {
 
   return res.status(200).json({
     success: 'true',
-    message: 'profile created',
+    message: 'Token verified.',
     data: decoded,
   })
 }

@@ -28,11 +28,9 @@ const createProjects = async (req: Request, res: Response) => {
       category,
     })
 
-    // transact.commit()
-
     return res.status(200).json({
       success: true,
-      message: 'User created',
+      message: 'Info: Project created',
       data: project,
     })
   } catch (error) {
@@ -41,7 +39,7 @@ const createProjects = async (req: Request, res: Response) => {
 
     // transact.rollback()
 
-    return res.status(400).json({
+    return res.status(500).json({
       success: false,
       error: 'Error: something went wrong, please try agin later',
     })
@@ -53,9 +51,6 @@ const getProjects = async (req: Request, res: Response) => {
   try {
     const { uid } = req.params
 
-    // eslint-disable-next-line no-console
-    console.log(uid)
-
     const project = await Project.findAll({
       where: {
         uid,
@@ -66,7 +61,6 @@ const getProjects = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       success: true,
-      message: 'User created',
       data: project,
     })
   } catch (error) {
@@ -75,7 +69,7 @@ const getProjects = async (req: Request, res: Response) => {
 
     // transact.rollback()
 
-    return res.status(200).json({
+    return res.status(500).json({
       success: false,
       message: 'error',
     })
