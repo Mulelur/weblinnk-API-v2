@@ -5,7 +5,7 @@ import User from '../../models/user'
 import jwt from 'jsonwebtoken'
 import { Op } from 'sequelize'
 // eslint-disable-next-line import/extensions
-import sendEmailToUser from '../../helpers/emails'
+// import sendEmailToUser from '../../helpers/emails'
 
 const createUser = async (req: Request, res: Response) => {
   //   const transact = await sequelize.transaction()
@@ -41,7 +41,7 @@ const createUser = async (req: Request, res: Response) => {
     })
 
     // Send email to the user
-    await sendEmailToUser(email, 'Welcome to our platform', 'Thank you for signing up.')
+    // await sendEmailToUser(email, 'Welcome to our platform', 'Thank you for signing up.')
 
     return res.status(201).json({
       success: true,
