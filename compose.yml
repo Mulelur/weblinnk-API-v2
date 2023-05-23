@@ -18,6 +18,14 @@ services:
     command: bash -c "npm i --quiet --ignore-scripts && npm run start:dev"
     ports:
       - "8080:8080"
+    labels:
+      - "traefik.http.routers.dev-app.rule=Host(`api.weblinnk.com`) && PathPrefix(`/`)"
+      - "traefik.http.routers.dev-app.entrypoints=websecure"
+      - "traefik.http.routers.dev-app.tls=true"
+    # labels:
+    #   - "traefik.http.routers.node-app.rule=Host(`api.weblinnk.com`)"
+    #   - "traefik.http.routers.node-app.entrypoints=websecure"
+    #   - "traefik.http.services.node-app.loadbalancer.server.port=8080"
 
   # proxy:
   #   build:
@@ -41,10 +49,6 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./traefik/traefik.yml:/etc/traefik/traefik.yml"
       - "./traefik/acme.json:/etc/traefik/acme.json"
-    labels:
-      - "traefik.http.routers.dev-app.rule=Host(`weblinnkapi`) && PathPrefix(`/`)"
-      - "traefik.http.routers.dev-app.entrypoints=websecure"
-      - "traefik.http.routers.dev-app.tls=true"
 
 networks:
   backnet:
