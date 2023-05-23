@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   dev-app:
     image: node:16.14.2
@@ -23,32 +25,18 @@ services:
       - "traefik.http.services.dev-app.loadbalancer.server.port=8080"
 
   traefik:
-    image: "traefik:v2.8"
-    network_mode: "host"
-    command:
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--providers.file.directory=/etc/traefik/conf"
-      - "--providers.file.watch=true"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
-      - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
-      - "--entrypoints.websecure.address=:443"
-      - "--log.level=info"
-      - "--serversTransport.insecureSkipVerify=true"
-      - "--certificatesresolvers.cloudflare.acme.dnschallenge=true"
-      - "--certificatesresolvers.cloudflare.acme.dnschallenge.provider=cloudflare"
-      - "--certificatesresolvers.cloudflare.acme.dnschallenge.resolvers=1.1.1.1:53,1.0.0.1:53"
-      - "--certificatesresolvers.cloudflare.acme.email=rotondwamulelu@gmail.com"
-      - "--certificatesresolvers.cloudflare.acme.storage=/letsencrypt/acme.json"
+    image: traefik:v2.5
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
     environment:
       - CLOUDFLARE_EMAIL=rotondwamulelu@gmail.com
       - CLOUDFLARE_API_KEY=Mnxp9RGHG3s55H5zgnNRbXHMhZQO0fA33acJiPgi
     volumes:
-      - "./letsencrypt:/letsencrypt"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-      - "./conf:/etc/traefik/conf:ro"
+      - "./traefik/traefik.yml:/etc/traefik/traefik.yml"
+      - "./traefik/acme.json:/etc/traefik/acme.json"
 
 networks:
   backnet:
