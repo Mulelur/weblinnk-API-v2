@@ -19,18 +19,32 @@ services:
     ports:
       - "8080:8080"
 
-  proxy:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  # proxy:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   restart: always
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   depends_on:
+  #     - dev-app
+  #   networks:
+  #     - frontnet
+  traefik:
+    image: traefik:v2.5
     restart: always
     ports:
-      - 80:80
-      - 443:443
-    depends_on:
-      - dev-app
-    networks:
-      - frontnet
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./traefik/traefik.yml:/etc/traefik/traefik.yml"
+      - "./traefik/acme.json:/etc/traefik/acme.json"
+    labels:
+      - "traefik.http.routers.dev-app.rule=Host(`weblinnkapi`) && PathPrefix(`/`)"
+      - "traefik.http.routers.dev-app.entrypoints=websecure"
+      - "traefik.http.routers.dev-app.tls=true"
 
 networks:
   backnet:
