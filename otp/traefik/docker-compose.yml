@@ -1,33 +1,5 @@
-version: '3.8'
-
+version: "3.4"
 services:
-  dev-app:
-    image: node:16.14.2
-    build:
-      context: dev-app
-      target: builder
-    working_dir: /app
-    restart: always
-    networks:
-      - backnet
-      - frontnet
-    volumes:
-      - ./:/app
-      - ./node_modules:/app/node_modules
-      - ./dist:/app/dist
-    command: bash -c "npm i --quiet --ignore-scripts && npm run start:dev"
-    ports:
-      - "8080:8080"
-    labels:
-      - "traefik.http.routers.dev-app.rule=Host(`api.weblinnk.com`) && PathPrefix(`/`)"
-      - "traefik.http.routers.dev-app.entrypoints=websecure"
-      - "traefik.http.routers.dev-app.tls=true"
-      - "traefik.http.services.dev-app.loadbalancer.server.port=8080"
-    # labels:
-    #   - "traefik.http.routers.node-app.rule=Host(`api.weblinnk.com`)"
-    #   - "traefik.http.routers.node-app.entrypoints=websecure"
-    #   - "traefik.http.services.node-app.loadbalancer.server.port=8080"
-
   traefik:
     image: "traefik:v2.8"
     network_mode: "host" 
@@ -60,6 +32,3 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./conf:/etc/traefik/conf:ro"
 
-networks:
-  backnet:
-  frontnet:
