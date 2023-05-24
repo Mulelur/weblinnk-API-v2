@@ -11,6 +11,7 @@ services:
     networks:
       - backnet
       - frontnet
+      - proxy
     volumes:
       - ./:/app
       - ./node_modules:/app/node_modules
@@ -29,6 +30,8 @@ services:
   traefik:
     image: traefik:v2.5
     restart: always
+    networks:
+      - proxy
     ports:
       - "80:80"
       - "443:443"
@@ -39,7 +42,24 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./traefik/traefik.yml:/etc/traefik/traefik.yml"
       - "./traefik/acme.json:/etc/traefik/acme.json"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.entrypoints=http"
+      - "traefik.http.routers.traefik.rule=Host(`traefik.weblinnk.com`)"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=username:hashed-password"
+      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
+      - "traefik.http.routers.traefik-secure.entrypoints=https"
+      - "traefik.http.routers.traefik-secure.rule=Host(`traefik.weblinnk.com`)"
+      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
+      - "traefik.http.routers.traefik-secure.tls=true"
+      - "traefik.http.routers.traefik-secure.tls.certresolver=http"
+      - "traefik.http.routers.traefik-secure.service=api@internal"
+      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
+
 
 networks:
   backnet:
   frontnet:
+  proxy:
+    external: true
