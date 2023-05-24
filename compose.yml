@@ -22,6 +22,8 @@ services:
       - "traefik.http.routers.dev-app.rule=Host(`api.weblinnk.com`) && PathPrefix(`/`)"
       - "traefik.http.routers.dev-app.entrypoints=websecure"
       - "traefik.http.routers.dev-app.tls=true"
+      - "traefik.http.routers.dev-app.tls.certresolver=http"
+      - "traefik.http.routers.dev-app.service=dev-app"
       - "traefik.http.services.dev-app.loadbalancer.server.port=8080"
 
   traefik:
