@@ -23,6 +23,7 @@ services:
       - "traefik.http.routers.dev-app.tls=true"
       - "traefik.http.routers.dev-app.tls.certresolver=letsencrypt"
       - "traefik.http.routers.dev-app.service=dev-app"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
       - "traefik.http.services.dev-app.loadbalancer.server.port=8080"
 
   traefik:
