@@ -49,11 +49,16 @@ const createProjects = async (req: Request, res: Response) => {
 const getProjects = async (req: Request, res: Response) => {
   //   const transact = await sequelize.transaction()
   try {
-    const { uid } = req.params
+    const {
+      user: { sub },
+    } = req.body
+
+    // eslint-disable-next-line no-console
+    console.log(req.body)
 
     const project = await Project.findAll({
       where: {
-        uid,
+        uid: sub,
       },
     })
 

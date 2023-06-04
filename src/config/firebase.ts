@@ -12,7 +12,4 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig)
 
-// eslint-disable-next-line no-console
-console.log(getApp().name) // '[DEFAULT]'
-
 export default app

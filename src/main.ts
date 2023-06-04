@@ -23,8 +23,6 @@ const main = (port: number = Config.port) => {
     // eslint-disable-next-line no-console
     console.log(`Listening on port: ${port}`)
   }
-  // eslint-disable-next-line no-console
-  console.log('hello')
 
   return server
 }

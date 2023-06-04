@@ -12,6 +12,7 @@ const Project = sequelize.define('project', {
   site_name: DataTypes.TEXT,
   site_id: DataTypes.TEXT,
   site_url: DataTypes.TEXT,
+  site_thumbnail: DataTypes.TEXT,
   published: DataTypes.BOOLEAN,
   site_status: {
     type: DataTypes.TEXT,
